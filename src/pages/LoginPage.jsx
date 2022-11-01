@@ -33,6 +33,9 @@ const LoginPage =()=> {
         console.log('H');
         await auth.signInWithEmailAndPassword(srn.trim(), password).then((userCredential) => {
           var user = userCredential.user;
+          // redirect to home page
+          console.log('login')
+          window.location.href = "/";
         })
       } catch (err) {
         setError(err.message);
@@ -87,7 +90,6 @@ const LoginPage =()=> {
         <p className="forgot-password text-right">
           Forgot <Link to='/forgot-password'>password?</Link>
             </p>
-            {srn}
               </form>
     </div>
     )

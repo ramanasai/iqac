@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Link, Navigate } from 'react-router-dom';
 import { useState } from 'react';
-import {auth} from '../fire';
-
+import {auth, db} from '../fire';
+// import db from '../fire';
 
 const RegisterPage  =(props) => {
   const [srn, setSRN] = useState("");
@@ -43,6 +43,18 @@ const RegisterPage  =(props) => {
       try {
         const res = await auth.createUserWithEmailAndPassword(usermail, enterpassword);
         console.log(res);
+        // send to firestore
+        await db.collection('users').doc(res.user.uid).set({
+          srn,
+          fullname,
+          usermail,
+          enterpassword,
+          confirmpassword
+        });
+
+        // redirect to login page
+        props.history.push('/sign-in');
+
       } catch (err) {
         setError(err.message);
       }
